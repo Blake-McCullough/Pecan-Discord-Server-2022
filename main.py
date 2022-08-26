@@ -7,7 +7,7 @@ from werkzeug.utils import secure_filename
 
 from dotenv import load_dotenv
 from pecan_server_communication import get_current_team_score
-from discord_server_link import edit_top_challenges_message, give_user_role, send_message
+from discord_server_link import edit_embeds, give_user_role,  send_updates_message
 from role_score_link import get_role_given
 
 from teams_discord import get_discord_ids
@@ -25,7 +25,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(func=edit_top_challenges_message, trigger="interval", seconds=60)
+scheduler.add_job(func=edit_embeds, trigger="interval", seconds=60)
 scheduler.start()
 
 # declaring app name
@@ -48,44 +48,35 @@ def pecanchallengeevent():
         category =  data["challenge"]["category"]
 
 
-        print(data)
-
-
+        #Gets current teams score.
         current_score = get_current_team_score(Team_ID=teamid)
+        #Gets role ID, and role name
         role = get_role_given(Team_ID=teamid,Current_Score = current_score)
-        role_id = role['Role_ID']
-        role_name = role['Role_Name']
-        print(role_id)
+        
 
         #Checks if the user can recieve a role, if they can then will run this.
-        if role_id == None:
-            message = f'''\n
-            The team: {teamname}
-            Just completed {challengename}
-            Current score: {current_score}
-            '''
+        if role == None:
+            message = f'''**The team:** `{teamname}` | **Just completed:** `{challengename}` | **Current score:** `{current_score}`'''
         else:
+
+            role_id = role['Role_ID']
+            role_name = role['Role_Name']
+            #Gets discord IDS
             discord_ids=get_discord_ids(Team_ID=teamid)
-            print(discord_ids)
+            #Gives user roles.
             for user_id in discord_ids:
-                print(user_id)
                 give_user_role(Member_ID= user_id,Role_ID = role_id)
 
 
-            message = f'''\n
-            The team: {teamname}
-            Just completed {challengename}
-            Current score: {current_score}
-            Latest Highest role: {role_name}
-            '''
+            message = f'''**The team:** `{teamname}` | **Just completed:** `{challengename}` | **Current Highest role:** `{role_name}` | **Current score:** `{current_score}`'''
+
+        #Sends updates message
+        send_updates_message(message = message)
 
 
-        send_message(message = message)
-
-
-        return 'Oh you made a <b>post</b> request that is pretty cool ngl!\n\n\n\n'
+        return 'Oh you made a <b>post</b> request that is pretty cool ngl!\n\n\n\nLol'
     if request.method == 'GET':
-        return 'Oh you made a <b>get</b> request that is pretty not cool ngl!'
+        return 'Oh you made a <b>get</b> request that is pretty not cool ngl!\n\n\n\nLol'
 
 
 

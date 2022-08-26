@@ -12,9 +12,10 @@ def get_role_given(Team_ID,Current_Score):
     role_score_break_sorted = sorted(role_score_break, key=itemgetter('Min'), reverse=True) 
     #Loops through roles and then sees if they above min, if so will return that role.
     for item in role_score_break_sorted :
-        print(item)
         if Current_Score>= item['Min']:
             return item
 
+    
+    
 
 
