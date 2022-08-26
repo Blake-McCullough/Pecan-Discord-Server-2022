@@ -1,8 +1,10 @@
 import json
 
 
+
 def find_route(data, route_no):
     return list(filter(lambda x: x.get('rounteNo') == route_no, data))
+
 
 def save_discord_id(Team_ID,Discord_ID):
     '''Saves the teams discord ID to the database.'''
@@ -27,6 +29,7 @@ def save_discord_id(Team_ID,Discord_ID):
     with open('data.json', 'w') as f:
         json.dump(new_data, f)
 
+
 def get_discord_ids(Team_ID):
     '''Returns a list of discord ID's for a given Team ID'''
     #Opens the file to save to local database.
@@ -44,7 +47,3 @@ def get_discord_ids(Team_ID):
     return Discord_IDs
 
 
-
-
-save_discord_id("324",2323)
-print(get_discord_ids("26222599-9b15-474a-b6cd-e421d827fdca"))

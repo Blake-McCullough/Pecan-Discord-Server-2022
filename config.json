@@ -1,0 +1,19 @@
+{
+    "role_score_break": [
+        {
+            "Min": 500,
+            "Role_ID": "1011240651171577886",
+            "Role_Name": "SUPER HACKER MAN"
+        },
+        {
+            "Min": 250,
+            "Role_ID": "1011240651171577886",
+            "Role_Name": "VERY HACKER MAN"
+        },
+        {
+            "Min": 50,
+            "Role_ID": "1011240651171577886",
+            "Role_Name": "HACKER MAN"
+        }
+    ]
+}
