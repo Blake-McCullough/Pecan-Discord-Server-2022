@@ -45,7 +45,7 @@ def send_edit_embed(message_url,message,title):
 
     response = requests.request("PATCH", message_url, json=payload, headers=headers)
 
-    if response.status_code == 204:
+    if response.status_code == 204 or response.status_code==200:
         pass
     else:
         print(response.status_code)
@@ -164,8 +164,7 @@ def edit_embeds():
     edit_top_challenges_message()
     edit_categories_message()   
     edit_leaderboard()
-    print('edited')
-
+    
 if __name__ == "__main__":
    
     load_dotenv()

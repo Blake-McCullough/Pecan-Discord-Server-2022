@@ -36,7 +36,6 @@ def get_challenges():
     if response.status_code == 200:
         data = response.json()
         results = data['data']
-        #print(results)
         return results 
     else:
         print(response.status_code)
@@ -53,7 +52,6 @@ def get_leaderboard(limit):
     if response.status_code == 200:
         data = response.json()
         results = data['data']['leaderboard']
-        print(results)
         return results
     else:
         print(response.status_code) 
