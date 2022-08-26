@@ -15,17 +15,6 @@ from teams_discord import get_discord_ids
 
 load_dotenv()
 
-#For event that occurs every x minutes.
-import time
-import atexit
-
-from apscheduler.schedulers.background import BackgroundScheduler
-
-
-
-scheduler = BackgroundScheduler()
-scheduler.add_job(func=edit_embeds, trigger="interval", seconds=60)
-scheduler.start()
 
 # declaring app name
 app = Flask(__name__)

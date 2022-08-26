@@ -17,7 +17,7 @@ def get_current_team_score(Team_ID):
         score = data["data"]["score"]
         return score
     else:
-        print(response.status_code)
+        print('Team score error' +str(response.status_code))
 
 
 
@@ -38,7 +38,7 @@ def get_challenges():
         results = data['data']
         return results 
     else:
-        print(response.status_code)
+        print('Challenges error' +str(response.status_code))
 
 
 def get_leaderboard(limit):
@@ -54,7 +54,7 @@ def get_leaderboard(limit):
         results = data['data']['leaderboard']
         return results
     else:
-        print(response.status_code) 
+        print('Leaderboard error' +str(response.status_code)) 
 
 
 if __name__ == "__main__":

@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from pecan_server_communication import get_challenges, get_leaderboard
 from datetime import datetime,timezone
 from collections import defaultdict
-
+import time
 
         
 def send_edit_embed(message_url,message,title):
@@ -47,8 +47,14 @@ def send_edit_embed(message_url,message,title):
 
     if response.status_code == 204 or response.status_code==200:
         pass
+    elif response.status_code == 429:
+        print(int(response.headers["Retry-After"]))
+        print(response.headers['x-ratelimit-scope'])
+        print('Embed error: ' +str(response.status_code))
+        print(response.headers)
     else:
-        print(response.status_code)
+        print('Embed error: ' +str(response.status_code))
+        print(response.headers)
       
 def extract_categories_message(data):
     '''Takes a list of challenges, returns a message with the categories and then the amount off solves'''
@@ -161,8 +167,11 @@ def create_graph_message():
     print(response.status_code)
 
 def edit_embeds():
+    time.sleep(1)
     edit_top_challenges_message()
+    time.sleep(1)
     edit_categories_message()   
+    time.sleep(1)
     edit_leaderboard()
     
 if __name__ == "__main__":

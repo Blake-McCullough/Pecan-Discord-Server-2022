@@ -1,14 +1,21 @@
 from dotenv import load_dotenv
 import discord,os
-
+from discord.ext import tasks
+from discord_server_link import edit_embeds
 from teams_discord import save_discord_id
 
 bot = discord.Bot()
 
+#Runs every minute.
+@tasks.loop(minutes=1)
+async def mytask():
+    edit_embeds()
 
 @bot.event
 async def on_ready():
   print(f'{bot.user} has logged in.')
+  #Starts event.
+  mytask.start()
 
 @bot.slash_command()
 async def adduser(ctx, team_id,user: discord.User):
@@ -29,6 +36,7 @@ async def adduser(ctx, team_id,user: discord.User):
 
 def start():  
     bot.run(os.getenv('BOT_TOKEN'))
+    #bot.run("MTAxMjU3MDQzMDI5MDI3MjI2Ng.GlaT7p.t-LbWH1AwL32nZou8K3NvV1c6hf0DVanqeGfyk")
 
 
 if __name__ == "__main__":
