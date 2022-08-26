@@ -36,7 +36,7 @@ async def adduser(ctx, team_id,user: discord.User):
 
 def start():  
     bot.run(os.getenv('BOT_TOKEN'))
-    #bot.run("MTAxMjU3MDQzMDI5MDI3MjI2Ng.GlaT7p.t-LbWH1AwL32nZou8K3NvV1c6hf0DVanqeGfyk")
+
 
 
 if __name__ == "__main__":
