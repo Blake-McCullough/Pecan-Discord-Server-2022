@@ -20,7 +20,7 @@ def save_discord_id(Team_ID,Discord_ID):
         teams.append({'Team_ID':Team_ID,"Discord_IDs":[Discord_ID]})
     else:
         if Discord_ID in teams[location]["Discord_IDs"]:
-            pass
+            return None
         else:
             teams[location]["Discord_IDs"].append(Discord_ID)
 
@@ -28,6 +28,7 @@ def save_discord_id(Team_ID,Discord_ID):
     #Saves the database to file.
     with open('data.json', 'w') as f:
         json.dump(new_data, f)
+    return True
 
 
 def get_discord_ids(Team_ID):
