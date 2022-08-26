@@ -81,6 +81,7 @@ def pecanchallengeevent():
 
 
 def start():
+    print('Web server now online.')
     app.run(host='0.0.0.0', port=80)
 
 
