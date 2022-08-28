@@ -27,17 +27,17 @@ def get_user_id(token):
     return data['id']
 
 
-def join_discord(token,userid):
+def join_discord(token,user_id):
     import requests
 
-    url = "https://discord.com/api/v10/guilds/"+os.getenv("GUILD_ID")+"/members/"+str(userid)
+    url = "https://discord.com/api/v10/guilds/"+os.getenv("GUILD_ID")+"/members/"+str(user_id)
 
     payload = '{\"access_token\": \"'+str(token)+'\"}'
     headers = {
-        'authorization': "Bot MTAxMjU3MDQzMDI5MDI3MjI2Ng.GlaT7p.t-LbWH1AwL32nZou8K3NvV1c6hf0DVanqeGfyk",
+        'authorization': "Bot " + os.getenv("BOT_TOKEN"),
         'content-type': "application/json",
-        'cache-control': "no-cache",
-        'postman-token': "2f5932cd-c30b-1dc8-e36d-dbcc70753813"
+
+
         }
 
     response = requests.request("PUT", url, data=payload, headers=headers)
@@ -48,3 +48,25 @@ def join_discord(token,userid):
     else:
         return None
 
+def get_username_by_id(user_id):
+    url = "https://discord.com/api/v10/users/"+str(user_id)
+
+
+    headers = {
+        'authorization': "Bot " + os.getenv("BOT_TOKEN")
+       
+        }
+
+    response = requests.request("GET", url,  headers=headers)
+    if response.status_code == 201 or response.status_code ==200 or response.status_code ==204:
+        data = response.json()
+        user_name = data['username']
+        tag = data['discriminator']
+        user_name_tag = user_name+"#"+tag
+        return user_name_tag
+    else:
+        return None
+
+
+if __name__ == "__main__":
+    get_username_by_id()

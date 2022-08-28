@@ -75,7 +75,9 @@ def extract_categories_message(data):
     
 def send_updates_message(message):
     response = DiscordWebhook(url=os.getenv('GAME_WEBHOOK_URL'), content=message).execute()
-    
+
+def send_linking_message(message):
+    response = DiscordWebhook(url=os.getenv('LINKING_WEBHOOK_URL'), content=message).execute()   
 
 def give_user_role(Member_ID,Role_ID):
     '''Uses the discord API to give a user a role, then will return true on success, false on error.'''

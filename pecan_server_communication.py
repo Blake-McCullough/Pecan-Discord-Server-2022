@@ -20,6 +20,20 @@ def get_current_team_score(Team_ID):
         print('Team score error' +str(response.status_code))
 
 
+def get_teamname_by_id(team_id):
+    '''Gets the username from a team name.'''
+    url = "https://ctf.pecan.tplant.com.au/api/v1/users/"+team_id
+
+    response = requests.request("GET", url)
+
+    if response.status_code == 200:
+        data = response.json()
+
+        name = data["data"]["name"]
+        return name
+    else:
+        print('Team ID error ' +str(response.status_code))
+        return None
 
 
 def get_challenges():
