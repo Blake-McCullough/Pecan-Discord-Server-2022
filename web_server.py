@@ -5,11 +5,12 @@ from flask import Flask,  redirect, request,Response, render_template, abort, re
 from werkzeug.utils import secure_filename
 
 from dotenv import load_dotenv
+from discord_oauth import exchange_code, get_user_id, join_discord
 from pecan_server_communication import get_current_team_score
 from discord_server_link import edit_embeds, give_user_role,  send_updates_message
 from role_score_link import get_role_given
+from teams_discord import fetch_team_discords, save_discord_id
 
-from teams_discord import get_discord_ids
 
 
 
@@ -50,7 +51,7 @@ def pecanchallengeevent():
             role_id = role['Role_ID']
             role_name = role['Role_Name']
             #Gets discord IDS
-            discord_ids=get_discord_ids(Team_ID=teamid)
+            discord_ids= fetch_team_discords(TEAM_ID=teamid)
             #Gives user roles.
             for user_id in discord_ids:
                 give_user_role(Member_ID= user_id,Role_ID = role_id)
@@ -68,6 +69,33 @@ def pecanchallengeevent():
 
 
 
+
+#For adding the count of said item to the manifest ID.
+@app.route('/adddiscord')
+def add_discord():
+    team_id =request.args.get('teamid',None)
+    code =request.args.get('code',None)
+    state =request.args.get('state',None)
+    if team_id == None and (code == None or state == None):
+        abort(412)
+    if code != None and state != None:
+        try:
+            token = exchange_code(code)
+            print(token)
+            user_id = get_user_id(token)
+            print(user_id)
+            print(state)
+            save_status = save_discord_id(TEAM_ID = state,DISCORD_ID = user_id)
+            print(save_status)
+            join_discord(token,user_id)
+
+            #return redirect(os.getenv('BASE_PECAN_URL')+'/profile')
+        except:
+             return redirect("https://discord.com/oauth2/authorize?client_id="+os.getenv('CLIENT_ID')+"&redirect_uri="+os.getenv('REDIRECT_URI')+"&response_type=code&scope=identify%20guilds.join&state="+state, code=302)
+    else:
+        return redirect("https://discord.com/oauth2/authorize?client_id="+os.getenv('CLIENT_ID')+"&redirect_uri="+os.getenv('REDIRECT_URI')+"&response_type=code&scope=identify%20guilds.join&state="+team_id, code=302)
+    
+        
 
 def start():
     print('Web server now online.')
