@@ -17,12 +17,14 @@ async def on_ready():
   #Starts event.
   mytask.start()
 
+
+#Command for adding a user to the role.
 @bot.slash_command()
 async def adduser(ctx, team_id,user: discord.User):
     if ctx.author.guild_permissions.manage_roles:
         try:
             result = save_discord_id(Team_ID = team_id,Discord_ID=user.id)
-            if result == None:
+            if result == False:
                 await ctx.respond(f"{user} Already in that team.", ephemeral=True)
             elif result == True:
                 await ctx.respond(f"Successfully added {user} to team {team_id}", ephemeral=True)
