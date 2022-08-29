@@ -1,4 +1,3 @@
-
 from operator import itemgetter
 import requests
 import os
@@ -149,7 +148,7 @@ def edit_categories_message():
 def create_graph_message():
     '''Creates a message to then be edited for the total.'''
     
-    url = "https://discord.com/api/channels/"+os.getenv("GRAPH_CHANNEL_ID")+ "/messages"
+    url = "https://discord.com/api/channels/1013626850142072884/messages"
 #Sends of editing message.
     payload = {
         'embeds':

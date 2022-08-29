@@ -42,7 +42,7 @@ def pecanchallengeevent():
         #Gets role ID, and role name
         role = get_role_given(Team_ID=teamid,Current_Score = current_score)
         
-
+   
         #Checks if the user can recieve a role, if they can then will run this.
         if role == None:
             message = f'''**The team:** `{teamname}` | **Just completed:** `{challengename}` | **Current score:** `{current_score}`'''
@@ -54,6 +54,7 @@ def pecanchallengeevent():
             discord_ids= fetch_team_discords(TEAM_ID=teamid)
             #Gives user roles.
             for user_id in discord_ids:
+ 
                 give_user_role(Member_ID= user_id,Role_ID = role_id)
 
 
@@ -83,7 +84,10 @@ def get_discord():
                 pass
             else:
                 usernames.append(username)
-        return {"Results":usernames }        
+        response = flask.jsonify({"Results":usernames })
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
+ 
 
 
 
