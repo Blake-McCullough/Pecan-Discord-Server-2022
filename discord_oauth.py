@@ -66,6 +66,45 @@ def get_username_by_id(user_id):
         return user_name_tag
     else:
         return None
+import json
+import requests
+
+def get_users_count_for_role(role_ID):
+    url = "https://discord.com/api/v10/guilds/598006801715298305/members?limit=1000"
+
+    payload={}
+    headers = {
+    'authorization': 'Bot MTAxMjU3MDQzMDI5MDI3MjI2Ng.GlaT7p.t-LbWH1AwL32nZou8K3NvV1c6hf0DVanqeGfyk',
+    'Cookie': '__dcfduid=bd836b702a8811ed930c169e368c4e8a; __sdcfduid=bd836b702a8811ed930c169e368c4e8aad904174c95a1fc6091f6a6a27ba3c46567d37292038187b3d504b4184d85da3'
+    }
+
+    response = requests.request("GET", url, headers=headers, data=payload)
+
+    data = response.json()
+    count = 0
+    for user in data:
+        #print(user)
+        if role_ID in user["roles"]:
+            count = count+1
+    return count
+
+
+def edit_voice_channel_name(channel_id,name):
+
+    url = "https://discord.com/api/v10/channels/"+channel_id
+
+    payload = json.dumps({
+    "name": name
+    })
+    headers = {
+    'authorization': 'Bot MTAxMjU3MDQzMDI5MDI3MjI2Ng.GlaT7p.t-LbWH1AwL32nZou8K3NvV1c6hf0DVanqeGfyk',
+    'Content-Type': 'application/json',
+    
+    }
+
+    response = requests.request("PATCH", url, headers=headers, data=payload)
+
+    print(response.status_code)
 
 
 if __name__ == "__main__":

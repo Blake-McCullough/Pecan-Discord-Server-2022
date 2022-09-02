@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-from discord_server_link import edit_embeds
+from discord_server_link import  run_edits
 from teams_discord import start_up
 import web_server,discord_bot
 from multiprocessing import Process
@@ -19,7 +19,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(func=edit_embeds, trigger="interval", seconds=60)
+scheduler.add_job(func=run_edits, trigger="interval", seconds=60)
 scheduler.start()
 
 

@@ -3,6 +3,7 @@ import requests
 import os
 from discord_webhook import DiscordWebhook
 from dotenv import load_dotenv
+from discord_oauth import edit_voice_channel_name, get_users_count_for_role
 from pecan_server_communication import get_challenges, get_leaderboard
 from datetime import datetime,timezone
 from collections import defaultdict
@@ -174,9 +175,21 @@ def edit_embeds():
     edit_categories_message()   
     time.sleep(1)
     edit_leaderboard()
-    
+
+def edit_counts():
+    #For beginners.
+    edit_voice_channel_name(os.getenv('BEGINNERS_VC_ID'),"Beginners: " + str(get_users_count_for_role(os.getenv('BEGINNERS_ROLE_ID'))))
+    #For intermediate.
+    edit_voice_channel_name(os.getenv('INTERMEDIATE_VC_ID'),"Intermediate: " + str(get_users_count_for_role(os.getenv('INTERMEDIATE_ROLE_ID'))))
+    #For advanced.
+    edit_voice_channel_name(os.getenv('ADVANCED_VC_ID'),"Advanced: " + str(get_users_count_for_role(os.getenv('ADVANCED_ROLE_ID'))))
+
+def run_edits():
+    edit_embeds()
+    edit_counts()
+
 if __name__ == "__main__":
    
     load_dotenv()
     #create_graph_message()
-    edit_embeds()
+    run_edits()
