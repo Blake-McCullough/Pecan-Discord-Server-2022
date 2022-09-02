@@ -14,6 +14,27 @@
             "Min": 50,
             "Role_ID": "1013637801323016192",
             "Role_Name": "HACKER MAN"
+        },
+        {
+            "Min": 404,
+            "Role_ID": "1015169995740807192",
+            "Role_Name": "ERROR 404"
+        },
+        {
+            "Min": 100,
+            "Role_ID": "1015170594041511986",
+            "Role_Name": "Julius Caesar"
+        },
+        {
+            "Min": 1947,
+            "Role_ID": "1015171055729508364",
+            "Role_Name": "Shhhhhhhh"
+        },
+        {
+            "Min": 2017,
+            "Role_ID": "1015171390787293205",
+            "Role_Name": "IWANNACRY"
         }
+        
     ]
 }
