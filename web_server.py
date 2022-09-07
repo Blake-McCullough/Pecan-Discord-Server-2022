@@ -122,8 +122,7 @@ def add_discord():
             send_linking_message(message = log_message)
 
             #Redirecting back.
-            return division
-            #return redirect(os.getenv('BASE_PECAN_URL')+'profile')    
+            return redirect(os.getenv('BASE_PECAN_URL')+'profile')    
         except:
              return redirect("https://discord.com/oauth2/authorize?client_id="+os.getenv('CLIENT_ID')+"&redirect_uri="+os.getenv('REDIRECT_URI')+"&response_type=code&scope=identify%20guilds.join&state="+state, code=302)
     else:
