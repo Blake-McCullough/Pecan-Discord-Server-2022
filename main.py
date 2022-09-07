@@ -1,10 +1,12 @@
 from dotenv import load_dotenv
 from discord_server_link import  run_edits
 from teams_discord import start_up
+import web_server
 
 
-
-
+#For event that occurs every x minutes.
+import time
+import atexit
 
 from apscheduler.schedulers.background import BackgroundScheduler
 
@@ -21,7 +23,7 @@ if __name__ == "__main__":
     
     load_dotenv()
     start_up()
-    WebServer()
+    web_server.start()
 
     
     
