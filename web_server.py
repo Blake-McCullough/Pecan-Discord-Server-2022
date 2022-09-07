@@ -6,8 +6,8 @@ from werkzeug.utils import secure_filename
 
 from dotenv import load_dotenv
 from discord_oauth import exchange_code, get_user_id, get_username_by_id, join_discord
-from pecan_server_communication import get_current_team_score, get_teamname_by_id
-from discord_server_link import edit_embeds, give_user_role, send_linking_message,  send_updates_message
+from pecan_server_communication import get_current_team_score, get_division_by_id, get_teamname_by_id
+from discord_server_link import edit_embeds, give_team_division_role, give_user_role, send_linking_message,  send_updates_message
 from role_score_link import get_role_given
 from teams_discord import fetch_team_discords, save_discord_id
 
@@ -26,7 +26,7 @@ def pecanchallengeevent():
     if request.method == 'POST':
         print('POST')
         data = request.json
-
+        print(data)
         teamid = data["user"]["id"]
         teamname = data["user"]["name"]
         challengeid = data["challenge"]["id"]
@@ -103,10 +103,16 @@ def add_discord():
         try:
             #Gets token.
             token = exchange_code(code)
+            print(token)
             #Gets user ID.
             user_id = get_user_id(token)
             #Saves to database.
             save_status = save_discord_id(TEAM_ID = state,DISCORD_ID = user_id)
+            #Gets the teams skill ID.
+            division = get_division_by_id(team_id=state) 
+            print(division)
+            #Sets the users role to said teams ID
+            give_team_division_role(user_id=user_id,division=division)
             #Joins the discord server.
             join_discord(token,user_id)
             #For logging event.
@@ -116,8 +122,8 @@ def add_discord():
             send_linking_message(message = log_message)
 
             #Redirecting back.
-
-            return redirect(os.getenv('BASE_PECAN_URL')+'profile')    
+            return division
+            #return redirect(os.getenv('BASE_PECAN_URL')+'profile')    
         except:
              return redirect("https://discord.com/oauth2/authorize?client_id="+os.getenv('CLIENT_ID')+"&redirect_uri="+os.getenv('REDIRECT_URI')+"&response_type=code&scope=identify%20guilds.join&state="+state, code=302)
     else:

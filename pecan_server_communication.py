@@ -35,6 +35,20 @@ def get_teamname_by_id(team_id):
         print('Team ID error ' +str(response.status_code))
         return None
 
+def get_division_by_id(team_id):
+    '''Gets the team skill level via the ID'''
+    url = "https://ctf.pecan.tplant.com.au/api/v1/users/"+team_id
+
+    response = requests.request("GET", url)
+
+    if response.status_code == 200:
+        data = response.json()
+
+        name = data["data"]["division"]
+        return name
+    else:
+        print('division ID error ' +str(response.status_code))
+        return None
 
 def get_challenges():
     '''Fetches challenges from the server'''

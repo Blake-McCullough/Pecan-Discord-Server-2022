@@ -81,21 +81,38 @@ def send_linking_message(message):
 
 def give_user_role(Member_ID,Role_ID):
     '''Uses the discord API to give a user a role, then will return true on success, false on error.'''
-    url = "https://discord.com/api/guilds/"+os.getenv("GUILD_ID")+ "/members/"+Member_ID
+    url = "https://discord.com/api/guilds/"+os.getenv("GUILD_ID")+ "/members/"+Member_ID+'/roles/'+Role_ID
+    print(url)
 
-    payload = '{"roles":['+Role_ID+']}'
     headers = {
         'authorization': "Bot "+os.getenv('BOT_TOKEN'),
         'content-type': "application/json",
         }
-
-    response = requests.request("PATCH", url, data=payload, headers=headers)
+    response = requests.request("PUT", url,  headers=headers)
     if response.status_code == 204:
         return True
     else:
+        print(response.status_code)
         return False
   
-
+def give_team_division_role(user_id,division):
+    try:
+        #RoleID is determined based on what the skill id is.
+        beginner_division = os.getenv('BEGINNER_DIVISION')
+        intermediate_division = os.getenv('INTERMEDIATE_DIVISION')
+        advance_division = os.getenv('ADVANCED_DIVISION')
+        if division == beginner_division:
+            role_id = os.getenv('BEGINNER_ROLE_ID')
+        elif division == intermediate_division:
+            role_id = os.getenv('INTERMEDIATE_ROLE_ID')
+        elif division ==  advance_division:
+            role_id = os.getenv('ADVANCED_ROLE_ID')
+        else:
+            send_linking_message(f'Failed to give the user: {user_id} a role, as division was: {division}')
+            return
+        give_user_role(Member_ID= user_id,Role_ID = role_id)
+    except Exception as e:
+        print(e)
 
 
 def edit_top_challenges_message():
@@ -178,7 +195,7 @@ def edit_embeds():
 
 def edit_counts():
     #For beginners.
-    edit_voice_channel_name(os.getenv('BEGINNERS_VC_ID'),"Beginners: " + str(get_users_count_for_role(os.getenv('BEGINNERS_ROLE_ID'))))
+    edit_voice_channel_name(os.getenv('BEGINNERS_VC_ID'),"Beginners: " + str(get_users_count_for_role(os.getenv('BEGINNER_ROLE_ID'))))
     #For intermediate.
     edit_voice_channel_name(os.getenv('INTERMEDIATE_VC_ID'),"Intermediate: " + str(get_users_count_for_role(os.getenv('INTERMEDIATE_ROLE_ID'))))
     #For advanced.

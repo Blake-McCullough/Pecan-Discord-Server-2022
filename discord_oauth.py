@@ -1,5 +1,6 @@
 import requests
 import os
+
 def exchange_code(code):
   data = {
     'client_id': os.getenv("CLIENT_ID"),
@@ -41,6 +42,7 @@ def join_discord(token,user_id):
         }
 
     response = requests.request("PUT", url, data=payload, headers=headers)
+    print(response.status_code)
     if response.status_code == 201:
         return True
     elif response.status_code ==204:
@@ -105,6 +107,8 @@ def edit_voice_channel_name(channel_id,name):
     response = requests.request("PATCH", url, headers=headers, data=payload)
 
     print(response.status_code)
+
+
 
 
 if __name__ == "__main__":
