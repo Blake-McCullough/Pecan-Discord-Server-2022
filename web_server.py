@@ -128,7 +128,31 @@ def add_discord():
     else:
         return redirect("https://discord.com/oauth2/authorize?client_id="+os.getenv('CLIENT_ID')+"&redirect_uri="+os.getenv('REDIRECT_URI')+"&response_type=code&scope=identify%20guilds.join&state="+team_id, code=302)
     
-        
+#For adding a discord user to the database (verifies via discord.)
+@app.route('/pecanctf/editteamdetails')
+def edit_team_details():  
+    if request.method == 'POST':
+        print('POST')
+        data = request.json
+        print(data)
+        teamid = data["user"]["id"]
+        teamname = data["user"]["name"]
+
+        #Gets discord IDS
+        discord_ids= fetch_team_discords(TEAM_ID=teamid)
+        division = get_division_by_id(team_id=teamid) 
+        #Gives user roles.
+        for user_id in discord_ids:
+ 
+                give_team_division_role(user_id=user_id,division=division)
+
+        log_message = f"The team {teamname}! Just changed its details!\n||USER ID: {user_id}||"
+        send_linking_message(message = log_message)
+
+
+        return 'Oh you made a <b>post</b> request that is pretty cool ngl!\n\n\n\nLol'
+    if request.method == 'GET':
+        return 'Oh you made a <b>get</b> request that is pretty not cool ngl!\n\n\n\nLol' 
 
 def start():
     print('Web server now online.')
